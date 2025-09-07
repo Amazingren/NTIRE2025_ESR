@@ -5,6 +5,7 @@
 </div>
 
 ## News
+- :t-rex: September 7th, 2025: The checkpoints and the models of all the solutinos are uploaded!
 - :t-rex: February 8th, 2025: Our Challenge Repo. is ready!
 
 
