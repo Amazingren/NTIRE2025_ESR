@@ -175,12 +175,12 @@ Let's take the baseline as an example, given the results (i.e., average Runtime_
 ## References
 If you feel this codebase and the report paper is useful for you, please cite our challenge report:
 ```
-@inproceedings{ren2024ninth,
-  title={The ninth NTIRE 2024 efficient super-resolution challenge report},
-  author={Ren, Bin and Li, Yawei and Mehta, Nancy and Timofte, Radu and Yu, Hongyuan and Wan, Cheng and Hong, Yuxin and Han, Bingnan and Wu, Zhuoyuan and Zou, Yajun and others},
+@inproceedings{ren2025tenth,
+  title={The tenth NTIRE 2025 efficient super-resolution challenge report},
+  author={Ren, Bin and Guo, Hang and Sun, Lei and Wu, Zongwei and Timofte, Radu and Li, Yawei and others},
   booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
-  pages={6595--6631},
-  year={2024}
+  pages={917--966},
+  year={2025}
 }
 ```
 
@@ -188,8 +188,10 @@ If you feel this codebase and the report paper is useful for you, please cite ou
 - Yawei Li (yawei.li@vision.ee.ethz.ch)
 - Bin Ren (bin.ren@unitn.it)
 - Hang Guo (cshguo@gmail.com)
+- Lei Sun (lei.sun@insait.ai)
 - Zongwei Wu (zongwei.wu@uni-wuerzburg.de)
 - Radu Timofte (Radu.Timofte@uni-wuerzburg.de) 
+
 
 If you have any question, feel free to reach out the contact persons and direct managers of the NTIRE challenge.
 
