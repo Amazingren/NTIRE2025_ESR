@@ -28,14 +28,324 @@ def select_model(args, device):
         model = EFDN()
         model.load_state_dict(torch.load(model_path), strict=True)
     elif model_id == 1:
-        pass # ---- Put your model here as below ---
-        # from models.team01_[your_model_name] import [your_model_name]
-        # name, data_range = f"{model_id:02}_[your_model_name]", [255.0 / 1.0] # You can choose either 1.0 or 255.0 based on your own model
-        # model_path = os.path.join('model_zoo', 'team01_[your_model_name].pth')
-        # model = [your_model_name]()
-        # model.load_state_dict(torch.load(model_path), strict=True)
+        pass
+    elif model_id == 7:
+        from models.team07_NanoSR import NanoSR_inference
+        name, data_range = f"{model_id:02}_NanoSR_inference", 1.0
+        model_path = os.path.join('model_zoo', 'team07_NanoSR.pth')
+        model = NanoSR_inference(3, 3)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 8:
+        from models.team08_FRnet import FRnet
+        name, data_range = f"{model_id:02}_FRnet", 1.0
+        model_path = os.path.join('model_zoo', 'team08_FRnet.pth')
+        model = FRnet()
+        model.load_state_dict(torch.load(model_path)['params_ema'], strict=False)
+    elif model_id == 10:
+        from models.team10_MoeASR import MixtureofAttention_Multiply
+        name, data_range = f"{model_id:02}_MoeASR", 1.0
+        model_path = os.path.join('model_zoo', 'team10_MoASR.pth')
+        model = MixtureofAttention_Multiply(dim=36, kernel_size=7, num_experts=3, topk=1, scale=4, num_blocks=9)
+        model.load_state_dict(torch.load(model_path)["params_ema"], strict=True)
+    elif model_id == 13:
+        from models.team13_HannahSR import HannahSR
+        name, data_range = f"{model_id:02}_HannahSR", 1.0
+        model_path = os.path.join('model_zoo', 'team13_HannahSR.pth')
+        model = HannahSR()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 15:
+        from models.team15_DIPNet_slim_v2 import DIPNet_slim_v2
+        name, data_range = f"{model_id:02}_DIPNet_slim_v2", 1.0
+        model_path = os.path.join('model_zoo', 'team15_DIPNet_slim_v2.pt')
+        model = DIPNet_slim_v2(3, 3, upscale=4, feature_channels=32)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 16:
+        from models.team16_SCMSR import SCMSR
+        name, data_range = f"{model_id:02}_SCMSR", 1.0
+        model_path = os.path.join('model_zoo', 'team16_SCMSR.pth')
+        model = SCMSR()
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict['params_ema'], strict=True)
+    elif model_id == 17:
+        from models.team17_FSANet_arch import FSANet
+        name, data_range = f"{model_id:02}_FSANet", 1.0
+        model_path = os.path.join('model_zoo', 'team17_FSANet.pth')
+        model = FSANet(fea_ch=56, conv='EPartialBSConvU', rgb_mean=[0.4488, 0.4371, 0.4040], channel_reduction_rate=2,
+                       bias=False)
+        model.load_state_dict(torch.load(model_path)["params"], strict=True)
+        for module in model.modules():
+            if hasattr(module, 'switch_deploy'):
+                module.switch_deploy()
+    elif model_id == 18:
+        from models.team18_SGSDN import SGSDN
+        name, data_range = f"{model_id:02}_SGSDN", 1.0
+        model_path = os.path.join('model_zoo', 'team18_SGSDN.pth')
+        model = SGSDN()
+        model.load_state_dict(torch.load(model_path)['params_ema'], strict=True)
+    elif model_id == 19:
+        from models.team19_SAFMNv3 import SAFMN_NTIRE25
+        name, data_range = f"{model_id:02}_SAFMNv3", 1.0
+        model = SAFMN_NTIRE25(dim=40, num_blocks=6, ffn_scale=1.5, upscaling_factor=4)
+        model_path = os.path.join('model_zoo', f'team19_safmnv3.pth')
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 20:
+        from models.team20_DAN import DAN
+        name, data_range = f"{model_id:02}_DAN", 1.0
+        model_path = os.path.join('model_zoo', 'team20_DAN.pth')
+        model = DAN()
+        model.load_state_dict(torch.load(model_path)['params_ema'], strict=True)
+    elif model_id == 21:
+        from models.team21_IESRNet import IESRNet
+        name, data_range = f"{model_id:02}_IESRNet", 1.0
+        model = IESRNet(3, 3, upscale=4, feature_channels=32)
+        model_path = os.path.join('model_zoo', 'team21_IESRNet.pt')
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 22:
+        from models.team22_XL import ParticalSRFormer3
+        name, data_range = f"{model_id:02}_ParticalSRFormer3_baseline", 1.0
+        model_path = os.path.join('model_zoo', 'Team22-pretrain.pth')
+        model = ParticalSRFormer3()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 23:
+        from models.team23_DSCF import DSCF
+        name, data_range = f"{model_id:02}_DSCF", 1.0
+        model_path = os.path.join('model_zoo', 'team23_DSCF.pth')
+        model = DSCF(3, 3, feature_channels=26, upscale=4)
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict, strict=False)
+    elif model_id == 24:
+        import importlib
+        model_module = importlib.import_module(f'models.team{model_id:02}_SPANF')
+        name, data_range = f"{model_id:02}_SPANF", 1.0
+        model = getattr(model_module, f'SPANF')(3, 3, upscale=4, feature_channels=32).eval().to(device)
+        model_path = os.path.join('model_zoo', f'team24_spanf.pth')
+        stat_dict = torch.load(model_path)
+        model.load_state_dict(stat_dict, strict=True)
+    elif model_id == 25:
+        from models.team25_RepRLFN import RepRLFN
+        name, data_range = f"{model_id:02}_RepRLFN", 1.0
+        model_path = os.path.join('model_zoo', 'team25_RepRLFN.pth')
+        model = RepRLFN()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 26:
+        from models.team26_FMDN import FMDN
+        name, data_range = f"{model_id:02}_FMDN_baseline", 1.0
+        model_path = os.path.join('model_zoo', 'team26_FMDN.pth')
+        model = FMDN()
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict['params_ema'], strict=True)
+    elif model_id == 27:
+        from models.team27_MVFMNet import MVFMNet
+        name, data_range = f"{model_id:02}_MVFMNet", 1.0
+        model_path = os.path.join('model_zoo', 'team27_MVFMNet.pth')
+        model = MVFMNet(dim=26, n_blocks=6, upscaling_factor=4)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 28:
+        from models.team28_bvi_srf_arch import BVI_SRF
+        name, data_range = f"{model_id:02}_BVI_SRF", 1.0
+        model_path = os.path.join('model_zoo', 'team28_bvi_srfnet_g.pth')
+        model = BVI_SRF()
+        model.load_state_dict(torch.load(model_path)['params'], strict=True)
+        model = model.cuda()
+        model.eval()
+    elif model_id == 29:
+        from models.team29_MAANRep import MAAN_rep
+        name, data_range = f"{model_id:02}_MAAN",  1.0
+        model_path = os.path.join('model_zoo', 'team29_MAANRep.pth')
+        model = MAAN_rep()
+        model.load_state_dict(torch.load(model_path)['params'], strict=True)
+    elif model_id == 30:
+        from models.team30_ARRLFN import ARRLFN
+        name, data_range = f"{model_id:02}_ARRLFN", 1.0
+        model_path = os.path.join('model_zoo', 'team30_ARRLFN.pth')
+        model = ARRLFN()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 31:
+        from models.team31_TSR import TSR
+        name, data_range = f"{model_id:02}_TSR", 1.0
+        model_path = os.path.join('model_zoo', 'team31_TSR.pth')
+        model = TSR()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 33:
+        from models.team33_EagleSR import BSRN
+        name, data_range = f"{model_id:02}_EagleSR", 1.0
+        model_path = os.path.join('model_zoo', 'team33_EagleSR.pth')
+        model = BSRN()
+        # torch.save(model.state_dict(), "ori.pth")
+        # torch.load("ori.pth")
+        state_dict = torch.load(model_path)
+        model.load_state_dict(state_dict['params'])
+    elif model_id == 34:
+        from models.team34_PFVM import ParameterFreeVisionMamba
+        name, data_range = f"{model_id:02}_PFVM", 1.0
+        model_path = os.path.join('model_zoo', 'team34_PFVM.pth')
+        model = ParameterFreeVisionMamba()
+        model.load_state_dict(torch.load(model_path)['params'], strict=True)
+    elif model_id == 35:
+        from models.team35_SFNet import SFNet
+        name, data_range = f"{model_id:02}_SFNet_baseline", 1.0
+        model_path = os.path.join('model_zoo', 'team35_SFNet.pth')
+        model = SFNet(3, 3, upscale=4, feature_channels=48)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 36:
+        from models.team36_espan import ESPAN
+        name, data_range = f"{model_id:02}_espan", 1.0
+        model_path = os.path.join('model_zoo', 'team36_espan.pth')
+        model = ESPAN(num_in_ch=3,
+                      num_out_ch=3,
+                      feature_channels=32,
+                      mid_channels=32,
+                      upscale=4,
+                      bias=True,
+                      teacher_feature_channels=32,
+                      teacher_extra_depth=1,
+                      use_fast_op=False)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 361:
+        # the same submission as team 36, with the use_fast_op different
+        from models.team36_espan import ESPAN
+        name, data_range = f"{model_id:02}_espan", 1.0
+        model_path = os.path.join('model_zoo', 'team36_espan.pth')
+        model = ESPAN(num_in_ch=3,
+                      num_out_ch=3,
+                      feature_channels=32,
+                      mid_channels=32,
+                      upscale=4,
+                      bias=True,
+                      teacher_feature_channels=32,
+                      teacher_extra_depth=1,
+                      use_fast_op=True)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 37:
+        from models.team37_RCUNet import RCUNet
+        name, data_range = f"{model_id:02}_RCUNet", 1.0
+        model_path = os.path.join('model_zoo', 'team37_RCUNet.pth')
+        model = RCUNet()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 38:
+        from models.team38_ESRNet import ESRNet
+        name, data_range = f"{model_id:02}_ESRNet", 1.0
+        model_path = os.path.join('model_zoo', 'team38_ESRNet.pth')
+        model = ESRNet(3, 3, upscale=4, feature_channels=28)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 39:
+        from models.team39_ExpandRepNet import ExpandRepNet
+        name, data_range = f"{model_id:02}_ExpandRepNet", 1.0
+        model_path = os.path.join('model_zoo', 'team39_ExpandRepNet.pth')
+        model = ExpandRepNet(dim=36, n_blocks=6, ffn_scale=1.5, upscaling_factor=4)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 40:
+        from models.team40_mambairv2light import MambaIRv2LightModel
+        name, data_range = f"{model_id:02}_MambaIRv2LightModel", 1.0
+        model_path = os.path.join('model_zoo', 'team40_mambairv2light.pth')
+        model = MambaIRv2LightModel()
+        model.load_weights(model_path)
+    elif model_id == 41:
+        from models.team41_DepthIBN import IBMDN
+        name, data_range = f"{model_id:02}_EFDN_baseline", 1.0
+        model_path = os.path.join('model_zoo', 'team41_DepthIBN.pth')
+        model = IBMDN()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 42:
+        from models.team42_FEAN import SWAVE
+        name, data_range = f"{model_id:02}_[FEAN]", 1.0
+        model_path = os.path.join('model_zoo', 'team42_FEAN.pt')
+        model = SWAVE(num_in_ch=3, num_out_ch=3, upscale=4, feature_channels=64)
+        model.load_state_dict(torch.load(model_path), strict=False)
+    elif model_id == 43:
+        from models.team43_SepSRNet import ESA_CCA
+        name, data_range = f"{model_id:02}_SepSRNet", 1.0
+        model_path = os.path.join('model_zoo', 'team43_SepSRNet.pth')
+        model = ESA_CCA()
+        model.load_state_dict(torch.load(model_path)['params_ema'])
+    elif model_id == 44:
+        from models.team44_SPAN import SPAN
+        name, data_range = f"{model_id:02}_SPAN", 1.0
+        model_path = os.path.join("model_zoo", "team44_SPANx4.pth")
+        model = SPAN(feature_channels=48, img_range=data_range)
+        model.load_state_dict(torch.load(model_path)["params"], strict=True)
+        model.repa()
+    elif model_id == 45:
+        from models.team45_TDESR import TDESR
+        name, data_range = f"{model_id:02}_TDESR", 1.0  # You can choose either 1.0 or 255.0 based on your own model
+        model_path = os.path.join('model_zoo', 'team45_TDESR.pth')
+        model = TDESR()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 46:
+        import importlib
+        model_module = importlib.import_module(f'models.team{model_id:02}_SPAN')
+        name, data_range = f"{model_id:02}_SPAN", 1.0
+        model = getattr(model_module, f'SPAN')(3, 3, upscale=4, feature_channels=28).eval().to(device)
+        model_path = os.path.join('model_zoo', f'team46_span.pth')
+        stat_dict = torch.load(model_path)['params_ema']
+        model.load_state_dict(stat_dict, strict=True)
+    elif model_id == 47:
+        from models.team47_EECNet import EECNet
+        name, data_range = f"{model_id:02}_EECNet", 1.0
+        model_path = os.path.join('model_zoo', 'team47_EECNet.pth')
+        model = EECNet(dim=32, n_blocks=8)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 48:
+        from models.team48_GLoReNet import CASRv016_hybrid_deploy
+        name, data_range = f"{model_id:02}_GLoReNet_casrv016_hybrid", 1.0
+        model_path = os.path.join('model_zoo', 'GLoReNet_m8c48_26_9205.pt')
+        model = CASRv016_hybrid_deploy(module_nums=8, channel_nums=48, down_scale=1, act_type='gelu', scale=4, colors=3)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 50:
+        from models.team50_TenInOneSR import TenInOneSR
+        name, data_range = f"{model_id:02}_TenInOneSR_baseline", 1.0
+        model_path = os.path.join('model_zoo', 'team50_TenInOneSR.pth')
+        model = TenInOneSR()
+        ckpt = torch.load(model_path)
+        model.load_state_dict(ckpt['params_ema'], strict=False)
+    elif model_id == 51:
+        import importlib
+        model_module = importlib.import_module(f'models.team{model_id:02}_SPAN')
+        name, data_range = f"{model_id:02}_SPAN", 1.0
+        model = getattr(model_module, f'SPAN')(3, 3, upscale=4, feature_channels=28).eval().to(device)
+        model_path = os.path.join('model_zoo', f'team51_span.pth')
+        stat_dict = torch.load(model_path)['params_ema']
+        model.load_state_dict(stat_dict, strict=True)
+    elif model_id == 52:
+        from models.team52_ECAS import ECAS
+        name, data_range = f"{model_id:02}_ECAS", 1.0
+        model_path = os.path.join('model_zoo', 'team52_ECAS.pth')
+        model = ECAS(3, 3)
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 54:
+        from models.team54_HITSR import HiT_SRF
+        name, data_range = f"{model_id:02}_HITSR", 1.0
+        model_path = os.path.join('model_zoo', 'team54_HITSR.pth')
+        model = HiT_SRF(
+            upscale=4,
+            in_chans=3,
+            img_size=64,
+            base_win_size=[8, 8],
+            img_range=1.0,
+            depths=[6, 6, 6, 6],
+            embed_dim=60,
+            num_heads=[6, 6, 6, 6],
+            expansion_factor=2,
+            resi_connection='1conv',
+            hier_win_ratios=[0.5, 1, 2, 4, 6, 8],
+            upsampler='pixelshuffledirect'
+        )
+        model.load_state_dict(torch.load(model_path)['params'], strict=True)
+    elif model_id == 56:
+        from models.team56_PAEDN import PAEDN
+        name, data_range = f"{(model_id):02}_PAEDN", 1.0
+        model_path = './model_zoo/team56_PAEDN.pth'
+        model = PAEDN()
+        model.load_state_dict(torch.load(model_path), strict=True)
+    elif model_id == 58:
+        from models.team58_TSSR import TSSR
+        name, data_range = f"{model_id:02}_TSR", 1.0
+        model_path = os.path.join('model_zoo', 'team58_TSSR.pth')
+        model = TSSR()
+        model.load_state_dict(torch.load(model_path), strict=True)
     else:
         raise NotImplementedError(f"Model {model_id} is not implemented.")
+
 
     # print(model)
     model.eval()
@@ -162,6 +472,7 @@ def run(model, model_name, data_range, tile, logger, device, args, mode="test"):
             logger.info("{:s} - PSNR: {:.2f} dB; SSIM: {:.4f}.".format(img_name + ext, psnr, ssim))
         else:
             logger.info("{:s} - PSNR: {:.2f} dB".format(img_name + ext, psnr))
+
 
         # if np.ndim(img_hr) == 3:  # RGB image
         #     img_sr_y = util.rgb2ycbcr(img_sr, only_y=True)
