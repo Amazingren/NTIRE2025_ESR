@@ -357,25 +357,15 @@ def select_model(args, device):
 
 
 def select_dataset(data_dir, mode):
-    # inference on the DIV2K_LSDIR_test set
-    if mode == "test":
-        path = [
-            (
-                p.replace("_HR", "_LR").replace(".png", "x4.png"),
-                p
-            ) for p in sorted(glob.glob(os.path.join(data_dir, "DIV2K_LSDIR_test_HR/*.png")))
-        ]
-
-    # inference on the DIV2K_LSDIR_valid set
-    elif mode == "valid":
-        path = [
-            (
-                p.replace("_HR", "_LR").replace(".png", "x4.png"),
-                p
-            ) for p in sorted(glob.glob(os.path.join(data_dir, "DIV2K_LSDIR_valid_HR/*.png")))
-        ]
-    else:
+    if mode not in ("test", "valid"):
         raise NotImplementedError(f"{mode} is not implemented in select_dataset")
+
+    hr_pattern = os.path.join(data_dir, f"DIV2K_LSDIR_{mode}_HR", "*.png")
+    lr_dir = os.path.join(data_dir, f"DIV2K_LSDIR_{mode}_LR")
+    path = [
+        (os.path.join(lr_dir, os.path.splitext(os.path.basename(hr))[0] + "x4.png"), hr)
+        for hr in sorted(glob.glob(hr_pattern))
+    ]
     
     return path
 
